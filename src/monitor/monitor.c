@@ -31,7 +31,7 @@ static const u_int8 cursor_max_y = 25;
  */
 static void move_cursor()
 {
-	u_int16 cursor_location = cursor_y * cursor_max_x + cursor_y; 	// 要移动到的位置
+	u_int16 cursor_location = cursor_y * cursor_max_x + cursor_x; 	// 要移动到的位置
 
 	// 设置光标的高字节
 	outb(0x3D4, 14);

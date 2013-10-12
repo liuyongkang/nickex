@@ -12,7 +12,7 @@ CC = gcc
 LD = ld
 ASM = nasm
 
-CFLAGS = -nostdlib -nostdinc -fno-builtin -fno-stack-protector
+CFLAGS = -c -Wall -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Iinclude -m32
 LDFLAGS = -Tscripts/link.ld -m elf_i386
 ASMFLAGS = -felf 
 
@@ -27,12 +27,15 @@ all: $(S_OBJECTS) $(C_OBJECTS) link
 
 
 .c.o:
+	@echo compiling $< ...
 	$(CC) $(CFLAGS) $< -o $@
 
 .s.o:
+	@echo compiling $< ...
 	nasm $(ASMFLAGS) $<
 
 link:
+	@echo linking $< ...
 	ld $(LDFLAGS) $(C_OBJECTS) $(S_OBJECTS) -o kernel
 
 

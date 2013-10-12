@@ -15,3 +15,5 @@
 # other
 *.txt
 *.img
+.clang_complete
+kernel

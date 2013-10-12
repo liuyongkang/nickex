@@ -41,10 +41,10 @@ mboot:
 [EXTERN nx_main]                   ; C代码入口
 
 start:
-;	push    ebx                 ; 加载multiboot header的位置
+	push    ebx                 ; 加载multiboot header的位置
 
 	; 启动内核
-;	cli                         ; 关闭中断
-;	call nx_main                ; 调用内核入口
+	cli                         ; 关闭中断
+	call nx_main                ; 调用内核入口
 	jmp $                       ; 进入死循环，停止处理器
 

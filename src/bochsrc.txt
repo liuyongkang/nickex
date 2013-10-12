@@ -23,9 +23,6 @@ floppya: 1_44=floppy.img, status=inserted
 # 启动设备
 boot: floppy
 
-# 日志
-log: bochsout.txt
-
 # 鼠标 0为不启用
 mouse: enabled=0
 

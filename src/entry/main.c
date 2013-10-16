@@ -18,9 +18,11 @@
 
 #include "multiboot.h"
 #include "monitor.h"
+#include "gdt.h"
 
 int nx_main(struct multiboot *mboot)
 {
+	init_gdt();
 	monitor_clear();
 	monitor_write_str("Hello world!\n");
 

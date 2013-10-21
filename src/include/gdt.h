@@ -31,6 +31,7 @@ struct gdt_entry_struct {
 	u_int8 base_high; 	// 段基地址 31～24
 } __attribute__((packed));
 
+// GDT指针
 struct gdt_ptr_struct {
 	u_int16 limit; 		// GDT的边界，数值上等于表的大小减一
 	u_int32 base; 		// GDT的起始地址

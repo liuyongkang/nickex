@@ -24,3 +24,4 @@ gdt_flush:
 	jmp 0x08:.flush 	; 0x08是到代码段的偏移 远跳
 .flush:
 	ret
+

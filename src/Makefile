@@ -12,7 +12,7 @@ CC = gcc
 LD = ld
 ASM = nasm
 
-CFLAGS = -c -Wall -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Iinclude -m32
+CFLAGS = -c -g -Wall -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Iinclude -m32
 LDFLAGS = -Tscripts/link.ld -m elf_i386
 ASMFLAGS = -felf 
 
@@ -50,6 +50,10 @@ update_image:
 	sleep 1
 	sudo umount /mnt/kernel
 
-.PHONY:run
-run:
-	bochs -f bochsrc.txt
+.PHONY:run-gdb
+run-gdb:
+	bochs-gdb -f bochsrc-gdb.txt
+
+.PHONY:run-debug
+run-debug:
+	bochs-debug -f bochsrc-debug.txt

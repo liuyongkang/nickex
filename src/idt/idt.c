@@ -17,6 +17,7 @@
  */
 
 #include "idt.h"
+#include "isr.h"
 #include "monitor.h"
 #include "string.h"
 
@@ -41,43 +42,22 @@ void idt_handler(struct registers_struct regs)
 	monitor_put((u_int8)'\n');
 }
 
-// 中断处理函数
-void isr0();
-void isr1();
-void isr2();
-void isr3();
-void isr4();
-void isr5();
-void isr6();
-void isr7();
-void isr8();
-void isr9();
-void isr10();
-void isr11();
-void isr12();
-void isr13();
-void isr14();
-void isr15();
-void isr16();
-void isr17();
-void isr18();
-void isr19();
-void isr20();
-void isr21();
-void isr22();
-void isr23();
-void isr24();
-void isr25();
-void isr26();
-void isr27();
-void isr28();
-void isr29();
-void isr30();
-void isr31();
 
 // 初始化IDT
 void init_idt()
 {
+	outb(0x20, 0x11);
+	outb(0xA0, 0x11);
+	outb(0x21, 0x20);
+	outb(0xA1, 0x28);
+	outb(0x21, 0x04);
+	outb(0xA1, 0x02);
+	outb(0x21, 0x01);
+	outb(0xA1, 0x01);
+	outb(0x21, 0x0);
+	outb(0xA1, 0x0);
+
+
 	// 设置IDTR
 	idt_ptr.limit = sizeof(struct idt_ptr_struct) * 256 - 1;
 	idt_ptr.base = (u_int32)&idt_entries;

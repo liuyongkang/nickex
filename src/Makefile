@@ -32,11 +32,11 @@ all: $(S_OBJECTS) $(C_OBJECTS) link
 
 .s.o:
 	@echo Compiling $<...
-	nasm $(ASMFLAGS) $<
+	$(ASM) $(ASMFLAGS) $<
 
 link:
 	@echo Linking $<...
-	ld $(LDFLAGS) $(C_OBJECTS) $(S_OBJECTS) -o kernel
+	$(LD) $(LDFLAGS) $(C_OBJECTS) $(S_OBJECTS) -o kernel
 
 
 .PHONY:clean

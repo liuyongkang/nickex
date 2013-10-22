@@ -19,12 +19,14 @@ MBOOT_HEADER_FLAGS 	equ 	MBOOT_PAGE_ALIGN | MBOOT_MEM_INFO
 MBOOT_CHECKSUM 		equ 	-(MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
 
 
-[BITS 32] 			; 所有指令都是32位的
+bits 32 			; 所有指令都是32位的
 
-[GLOBAL mboot] 			; 可从C开始'mboot'
-[EXTERN code] 			; '.text'开始
-[EXTERN bss] 			; '.bss'开始
-[EXTERN end] 			; 最后可引导部分的结尾
+section .text
+
+global mboot 			; 可从C开始'mboot'
+extern code 			; '.text'开始
+extern bss 			; '.bss'开始
+extern end 			; 最后可引导部分的结尾
 
 mboot:
 	dd  MBOOT_HEADER_MAGIC 		; grub将在内核文件中每隔四个字节寻找这个魔数
@@ -37,14 +39,21 @@ mboot:
 	dd  end 			; 内核结束
 	dd  start 			; 内核入口
 
-[GLOBAL start]                  ; 内核入口
-[EXTERN nx_main]                   ; C代码入口
+global start 				; 内核入口
+extern nx_main 				; C代码入口
 
 start:
-	push    ebx                 ; 加载multiboot header的位置
+	cli 				; 关闭中断
+	mov esp,stack 			; 设置堆栈段
+	push ebx 			; 加载multiboot header的位置
+	mov ebp,0 			; 初始化帧指针
 
 	; 启动内核
-	cli                         ; 关闭中断
-	call nx_main                ; 调用内核入口
-	jmp $                       ; 进入死循环，停止处理器
+	call nx_main 			; 调用内核入口
+	jmp $ 				; 进入死循环，停止处理器
+.end:
+
+section .bss
+	resb 32768
+stack:
 

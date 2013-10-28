@@ -1,0 +1,4 @@
+file kernel
+target remote: 1234
+b nx_main
+c

@@ -49,13 +49,12 @@ static void scroll()
 {
 	u_int8 attribute_byte = (0 << 4) | (15 & 0x0F); 	// 属性为黑底白字
 	u_int16 blank = 0x20 | (attribute_byte << 8); 		// 字符为空白
-
+	int i;
 	// y坐标超过屏幕，进行滚动
-	if (cursor_y >= cursor_max_x) {
-		int i;
+	if (cursor_y >= cursor_max_y) {
 		// 整体上移一行
-		for (i = 0 * cursor_max_x; i < (cursor_max_y - 1) * cursor_max_x; i++) {
-			video_memory[i] = video_memory[i + cursor_max_y];
+		for (i = 0 ; i < (cursor_max_y - 1) * cursor_max_x; i++) {
+			video_memory[i] = video_memory[i + cursor_max_x];
 		}
 
 		// 最下面一行为空白
@@ -64,7 +63,7 @@ static void scroll()
 		}
 		
 		// y坐标设为最下一行
-		cursor_y = cursor_max_x - 1;
+		cursor_y = cursor_max_y - 1;
 	}
 }
 

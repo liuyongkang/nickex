@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  main.c
+ *       Filename:  timer.h
  *
- *    Description:  内核入口
+ *    Description:  
  *
  *        Version:  1.0
- *        Created:  2013年10月12日 16时42分27秒
+ *        Created:  2013年10月28日 16时19分04秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,21 +16,12 @@
  * =====================================================================================
  */
 
-#include "multiboot.h"
-#include "monitor.h"
-#include "gdt.h"
-#include "idt.h"
-#include "timer.h"
+#ifndef TIMER_H_
+#define TIMER_H_
 
-int nx_main(struct multiboot *mboot)
-{
-	init_gdt();
-	init_idt();
-	monitor_clear();
-	monitor_write_str("Hello world!\n");
-	init_timer(20);
-	asm volatile ("sti");
+#include "common.h"
 
-	return 0;
-}
+extern void init_timer(u_int32 frequency);
+
+#endif // TIMER_H_
 

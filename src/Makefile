@@ -12,9 +12,9 @@ CC = gcc
 LD = ld
 ASM = nasm
 
-CFLAGS = -c -g -Wall -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Iinclude -m32
+CFLAGS = -c -ggdb -Wall -m32 -gstabs+ -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Iinclude
 LDFLAGS = -Tscripts/link.ld -m elf_i386
-ASMFLAGS = -felf 
+ASMFLAGS = -felf -g
 
 
 C_SOURCES = $(shell find . -name "*.c")
@@ -23,7 +23,7 @@ S_SOURCES = $(shell find . -name "*.s")
 S_OBJECTS = $(patsubst %.s, %.o, $(S_SOURCES))
 
 
-all: $(S_OBJECTS) $(C_OBJECTS) link
+all: $(S_OBJECTS) $(C_OBJECTS) link update_image
 
 
 .c.o:
@@ -36,7 +36,7 @@ all: $(S_OBJECTS) $(C_OBJECTS) link
 
 link:
 	@echo Linking $<...
-	$(LD) $(LDFLAGS) $(C_OBJECTS) $(S_OBJECTS) -o kernel
+	$(LD) $(LDFLAGS) $(S_OBJECTS) $(C_OBJECTS) -o kernel
 
 
 .PHONY:clean
@@ -57,3 +57,14 @@ run-gdb:
 .PHONY:run-debug
 run-debug:
 	bochs-debug -f bochsrc-debug.txt
+
+.PHONY:qemu
+qemu:
+	qemu -fda floppy.img -boot a
+
+.PHONY:debug
+debug:
+	qemu -S -s -fda floppy.img -boot a &
+	sleep 1
+	cgdb -x gdbinit
+
